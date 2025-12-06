@@ -26,6 +26,16 @@ export default defineConfig(
       "simple-import-sort/imports": "error",
       "simple-import-sort/exports": "error",
       "no-console": "error",
+
+      // don't throw erros for variables that start with _
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          caughtErrorsIgnorePattern: "^_",
+        },
+      ],
     },
   },
 )

@@ -7,6 +7,7 @@ const startServer = () => {
   try {
     app.listen(PORT, () => {
       logger.info(`Server running on port ${PORT}`)
+      logger.debug(`Environment: ${process.env.NODE_ENV}`)
     })
   } catch (err) {
     logger.error(err)
