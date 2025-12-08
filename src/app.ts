@@ -3,11 +3,13 @@ import { NextFunction, Request, Response } from "express"
 import httpStatus from "http-status"
 
 import { logger } from "./config/logger"
+import { responseEnhancer } from "./middleware/utils"
 import ApiError from "./utils/apiError"
 import ApiResponse from "./utils/apiResponse"
 
 const app = express()
-
+app.use(express.json())
+app.use(responseEnhancer)
 app.get("/health", (req: Request, res: Response) => {
   res.send(new ApiResponse(httpStatus.OK, null, "app is running"))
 })
