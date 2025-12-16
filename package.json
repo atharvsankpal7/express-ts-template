@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/server.ts",
+    "dev": "nodemon -L src/index.ts",
     "build": "tsc",
     "format": "prettier . --write ",
     "lint:fix": "eslint  --fix",
@@ -47,5 +47,6 @@
     "express": "^5.2.1",
     "http-status": "^2.1.0",
     "winston": "^3.18.3"
-  }
+  },
+  "packageManager": "pnpm@10.25.0+sha512.5e82639027af37cf832061bcc6d639c219634488e0f2baebe785028a793de7b525ffcd3f7ff574f5e9860654e098fe852ba8ac5dd5cefe1767d23a020a92f501"
 }
