@@ -1,8 +1,8 @@
 {
   "name": "auth",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Authentication service for pizza application",
+  "main": "dist/index.js",
   "scripts": {
     "dev": "nodemon -L src/index.ts",
     "build": "tsc",
@@ -11,7 +11,11 @@
     "test": "jest --watch --runInBand",
     "prepare": "husky",
     "docker:build": "docker build -t auth-service:dev -f docker/dev/Dockerfile .",
-    "docker:dev": "docker run --rm -it -v \"%cd%\":/usr/src/app -v /usr/src/app/node_modules --env-file .env -p 8081:8081 -e NODE_ENV=development -e PORT=8081 auth-service:dev"
+    "docker:run": "docker run --rm -it -v \"%cd%\":/usr/src/app -v /usr/src/app/node_modules --env-file .env -p 8081:8081 -e NODE_ENV=development -e PORT=8081 auth-service:dev",
+    "docker:dev": "pnpm docker:build && pnpm docker:run",
+    "postgres:install": "docker pull postgres:17 && docker volume create pizza_auth_service",
+    "postgres:run": "docker run -d --name pizza_auth_service-container -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -e POSTGRES_DB=auth -v pizza_auth_service:/var/lib/postgresql/data -p 5432:5432 postgres:17",
+    "postgres:dev": "pnpm postgres:install && pnpm postgres:run"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
@@ -48,7 +52,8 @@
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "http-status": "^2.1.0",
-    "winston": "^3.18.3"
+    "winston": "^3.18.3",
+    "zod": "^4.2.1"
   },
   "packageManager": "pnpm@10.25.0+sha512.5e82639027af37cf832061bcc6d639c219634488e0f2baebe785028a793de7b525ffcd3f7ff574f5e9860654e098fe852ba8ac5dd5cefe1767d23a020a92f501"
 }

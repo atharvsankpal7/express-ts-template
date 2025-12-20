@@ -4,6 +4,7 @@ import httpStatus from "http-status"
 
 import { logger } from "./config/logger"
 import { responseEnhancer } from "./middleware/utils"
+import routers from "./routes"
 import ApiError from "./utils/apiError"
 import ApiResponse from "./utils/apiResponse"
 
@@ -14,9 +15,12 @@ app.get("/health", (req: Request, res: Response) => {
   res.send(new ApiResponse(httpStatus.OK, null, "app is running"))
 })
 
+app.use(routers)
+
 app.use((_req, _res) => {
   throw new ApiError(httpStatus.NOT_FOUND, "Api Not found")
 })
+
 app.use((err: ApiError, _req: Request, res: Response, _next: NextFunction) => {
   logger.error(`${err.statusCode}, ${err.message}`)
   res.send(new ApiResponse(err.statusCode, null, err.message))

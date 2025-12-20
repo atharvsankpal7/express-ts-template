@@ -2,12 +2,8 @@ import { describe, expect, test } from "@jest/globals"
 import request from "supertest"
 
 import app from "../app"
-import { calculateDiscount } from "./appTestUtils"
 
 describe("app", () => {
-  test("discount", () => {
-    expect(calculateDiscount(100, 10)).toBe(90)
-  })
   test("app health", async () => {
     await request(app).get("/health").send().expect(200)
   })
