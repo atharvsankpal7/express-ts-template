@@ -28,8 +28,7 @@ export const USERNAME_REGEX =
  * - "12345"
  * - "John  "
  */
-export const FULLNAME_REGEX =
-  /^(?=.{3,63}$)(?=.*[\\p{L}])[\\p{L}][\\p{L}\\p{Pd}\\p{Zs}']*[\\p{L}]$|^(?=.{3,63}$)[\\p{L}]+$/
+export const FULLNAME_REGEX = /^(?=.{3,63}$)(?=.*[\p{L}])[\p{L}][\p{L}\p{Pd}\p{Zs}']*[\p{L}]$/u
 
 /**
  * A regular expression that validates passwords.
