@@ -5,7 +5,7 @@
 
     "target": "ES2020",
     "module": "CommonJS",
-    "lib": ["ES2020"],
+    "lib": ["ES6"],
 
     "moduleResolution": "node",
     "resolveJsonModule": true,
@@ -17,7 +17,9 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "sourceMap": true,
-    "allowImportingTsExtensions": null
+    "allowImportingTsExtensions": null,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
   },
   "include": ["src", "tests"],
   "exclude": ["node_modules", "dist"]
