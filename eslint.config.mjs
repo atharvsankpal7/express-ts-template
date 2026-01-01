@@ -6,7 +6,7 @@ import { defineConfig } from "eslint/config"
 
 export default defineConfig(
   {
-    ignores: ["dist/", "node_modules/", "eslint.config.mjs", "jest.config.js", "tsconfig.json"],
+    ignores: ["dist/", "node_modules/", "eslint.config.mjs", "jest.config.js", "tsconfig.json", "drizzle.config.ts"],
   },
   eslint.configs.recommended,
   tseslint.configs.recommendedTypeChecked,

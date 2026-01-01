@@ -1,0 +1,5 @@
+{
+  "permissions": {
+    "allow": ["Bash(cat:*)", "Bash(pnpm add:*)", "Bash(pnpm exec drizzle-kit generate:*)"]
+  }
+}

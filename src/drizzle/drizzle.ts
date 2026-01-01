@@ -6,6 +6,6 @@ import Config from "../config"
 export const db = drizzle({
   connection: {
     connectionString: Config.DB_URI,
-    ssl: true,
+    ssl: Config.DB_SSL,
   },
 })
