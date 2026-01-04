@@ -16,6 +16,9 @@ importers:
       drizzle-orm:
         specifier: ^0.45.1
         version: 0.45.1(@types/pg@8.16.0)(pg@8.16.3)
+      drizzle-seed:
+        specifier: ^0.3.1
+        version: 0.3.1(drizzle-orm@0.45.1(@types/pg@8.16.0)(pg@8.16.3))
       express:
         specifier: ^5.2.1
         version: 5.2.1
@@ -1836,6 +1839,15 @@ packages:
       sql.js:
         optional: true
       sqlite3:
+        optional: true
+
+  drizzle-seed@0.3.1:
+    resolution:
+      { integrity: sha512-F/0lgvfOAsqlYoHM/QAGut4xXIOXoE5VoAdv2FIl7DpGYVXlAzKuJO+IphkKUFK3Dz+rFlOsQLnMNrvoQ0cx7g== }
+    peerDependencies:
+      drizzle-orm: ">=0.36.4"
+    peerDependenciesMeta:
+      drizzle-orm:
         optional: true
 
   dunder-proto@1.0.1:
@@ -5008,6 +5020,12 @@ snapshots:
     optionalDependencies:
       "@types/pg": 8.16.0
       pg: 8.16.3
+
+  drizzle-seed@0.3.1(drizzle-orm@0.45.1(@types/pg@8.16.0)(pg@8.16.3)):
+    dependencies:
+      pure-rand: 6.1.0
+    optionalDependencies:
+      drizzle-orm: 0.45.1(@types/pg@8.16.0)(pg@8.16.3)
 
   dunder-proto@1.0.1:
     dependencies:

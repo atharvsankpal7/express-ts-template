@@ -1,6 +1,7 @@
 import { config } from "dotenv"
 import path from "path"
-config({ path: path.join(__dirname, `../../env.${process.env.ENVIRONMENT ?? ""}`) })
+const envPath = path.join(__dirname, `../../.env${process.env.ENVIRONMENT ? "." + process.env.ENVIRONMENT : ""}`)
+config({ path: envPath })
 
 const { PORT, NODE_ENV, DB_URI, DB_SSL } = process.env
 const Config = {

@@ -21,15 +21,17 @@ export class AuthController {
 
     const hashedPassword = await hashPassword(password)
 
-    const [user] = await db
+    const [createdUser] = await db
       .insert(users)
       .values({
         fullName,
         email,
         password: hashedPassword,
       })
-      .returning()
+      .returning({ id: users.id })
 
-    res.send(new ApiResponse(httpStatus.CREATED, user, "user created successfully"))
+    res.send(
+      new ApiResponse({ statusCode: httpStatus.CREATED, data: createdUser, message: "user created successfully" }),
+    )
   }
 }
