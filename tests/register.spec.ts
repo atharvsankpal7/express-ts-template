@@ -33,8 +33,17 @@ describe("POST /auth/register", () => {
       expect(response.headers["content-type"]).toEqual(expect.stringContaining("json"))
     })
 
+    it("should return id of created user", async () => {
+      const response = await registerUser()
+      const body = response.body as { data: { id: number } }
+      expect(typeof body.data.id).toBe("number")
+    })
+
     it("should insert user in db", async () => {
-      const dbUser = await db
+      const response = await registerUser()
+      const body = response.body as { data: { id: number } }
+      expect(body.data.id).not.toBeNull()
+      const [dbUser] = await db
         .select()
         .from(users)
         .where(and(eq(users.email, userData.email), eq(users.fullName, userData.fullName)))
