@@ -59,6 +59,12 @@ Ensure you have the following installed on your machine:
     DB_URI=postgresql://root:root@localhost:5432/auth
     ```
 
+3.  Create a `.env.test` file for testing environment:
+
+    ```bash
+    cp .env.test.example .env.test
+    ```
+
 ## Database Setup
 
 This service uses PostgreSQL with Drizzle ORM.
