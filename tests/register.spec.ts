@@ -12,13 +12,12 @@ describe("POST /auth/register", () => {
   beforeEach(async () => {
     await truncateAllTables()
   })
-
+  const userData = {
+    fullName: "test user",
+    email: "test@email.com",
+    password: "testP@ssw0rd",
+  }
   describe("given all valid fields", () => {
-    const userData = {
-      fullName: "test user",
-      email: "test@email.com",
-      password: "testP@ssw0rd",
-    }
     const registerUser = async () => {
       const response = await request(app).post("/auth/register").send(userData)
       return response as TypedResponse<IRegisterResponse>
@@ -100,6 +99,13 @@ describe("POST /auth/register", () => {
       }
       const response = await request(app).post("/auth/register").send(userData)
       expect(response.statusCode).toBe(400)
+    })
+  })
+  describe("given duplicate email", () => {
+    it("should return 409 when email is duplicate", async () => {
+      await request(app).post("/auth/register").send(userData)
+      const response = await request(app).post("/auth/register").send(userData)
+      expect(response.statusCode).toBe(409)
     })
   })
 })
