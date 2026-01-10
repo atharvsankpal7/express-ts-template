@@ -8,11 +8,12 @@
     "build": "tsc",
     "format": "prettier . --write ",
     "lint:fix": "eslint  --fix",
-    "test": "cross-env ENVIRONMENT=test jest --watch --runInBand",
+    "test": "cross-env ENVIRONMENT=test pnpm db:test:reset && jest --watch --runInBand",
     "prepare": "husky",
     "docker:build": "docker build -t auth-service:dev -f docker/dev/Dockerfile .",
     "docker:run": "docker run --rm -it -v \"%cd%\":/usr/src/app -v /usr/src/app/node_modules --env-file .env -p 8081:8081 -e NODE_ENV=development -e PORT=8081 auth-service:dev",
     "docker:dev": "pnpm docker:build && pnpm docker:run",
+    "db:test:reset": "ts-node scripts/db-reset-test.ts",
     "postgres:install": "docker pull postgres:17 && docker volume create pizza_auth_service",
     "postgres:run": "docker run -d --name pizza_auth_service-container -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -e POSTGRES_DB=auth -v pizza_auth_service:/var/lib/postgresql/data -p 5432:5432 postgres:17",
     "postgres:dev": "pnpm postgres:install && pnpm postgres:run"

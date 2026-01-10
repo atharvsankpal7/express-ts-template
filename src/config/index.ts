@@ -7,6 +7,7 @@ const { PORT, NODE_ENV, DB_URI, DB_SSL } = process.env
 const Config = {
   PORT: PORT ?? 8081,
   isDev: NODE_ENV === "development",
+  isTest: NODE_ENV === "test",
   DB_URI: DB_URI ?? "postgresql://root:root@localhost:5432/auth",
   DB_SSL: DB_SSL === "true" ? true : false,
 } as const // make read only

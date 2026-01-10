@@ -1,13 +1,14 @@
 import { describe, expect } from "@jest/globals"
-import { and, eq } from "drizzle-orm"
+import { eq } from "drizzle-orm"
 import request from "supertest"
 
 import app from "../src/app"
 import { db } from "../src/drizzle/drizzle"
-import { users } from "../src/drizzle/schema"
+import { IUser, users } from "../src/drizzle/schema"
+import { IRegisterResponse } from "../src/types/apiEndPointTypes/auth.types"
 import { truncateAllTables } from "./utils"
+import { TypedResponse } from "./utils/tests.types"
 describe("POST /auth/register", () => {
-  // Database Truncate
   beforeEach(async () => {
     await truncateAllTables()
   })
@@ -20,7 +21,7 @@ describe("POST /auth/register", () => {
     }
     const registerUser = async () => {
       const response = await request(app).post("/auth/register").send(userData)
-      return response
+      return response as TypedResponse<IRegisterResponse>
     }
 
     it("should return 201", async () => {
@@ -35,19 +36,29 @@ describe("POST /auth/register", () => {
 
     it("should return id of created user", async () => {
       const response = await registerUser()
-      const body = response.body as { data: { id: number } }
-      expect(typeof body.data.id).toBe("number")
+      expect(typeof response.body.data.id).toBe("number")
     })
 
-    it("should insert user in db", async () => {
+    const registerAndGetUser = async () => {
       const response = await registerUser()
-      const body = response.body as { data: { id: number } }
-      expect(body.data.id).not.toBeNull()
-      const [dbUser] = await db
-        .select()
-        .from(users)
-        .where(and(eq(users.email, userData.email), eq(users.fullName, userData.fullName)))
-      expect(dbUser).not.toBeNull()
+      const id = response.body.data.id
+
+      const [dbUser] = (await db.select().from(users).where(eq(users.id, id))) as IUser[]
+
+      return { response, dbUser }
+    }
+
+    it("creates a user", async () => {
+      const { response, dbUser } = await registerAndGetUser()
+
+      expect(response.status).toBe(201)
+      expect(dbUser).toBeDefined()
+    })
+
+    it("hashes the password before saving", async () => {
+      const { dbUser } = await registerAndGetUser()
+
+      expect(dbUser.password).not.toBe(userData.password)
     })
   })
 
