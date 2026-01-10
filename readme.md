@@ -1,6 +1,6 @@
-# Auth Service
+# Generic Template
 
-This is the Authentication Service for the Multi-Tenant Delivery Application. It is built using Node.js, Express, and TypeScript with PostgreSQL as the database.
+This is a professional grade starting point template. It is built using Node.js, Express, TypeScript, Docker, Logger, Drizzle ORM with PostgreSQL as the database.
 
 ## Table of Contents
 
@@ -163,11 +163,12 @@ Here are the available scripts defined in `package.json`:
 │   ├── drizzle/            # Database schema and connection
 │   ├── middleware/         # Express middleware
 │   ├── routes/             # API route definitions
-│   ├── test/               # Test files
 │   ├── utils/              # Utility functions
 │   ├── validationSchemas/  # Zod validation schemas
 │   ├── app.ts              # Express app setup
 │   └── index.ts            # Entry point
+├── test/
+│   ├── *.test.ts           # Test files
 ├── .env.example            # Example environment variables
 ├── drizzle.config.ts       # Drizzle Kit configuration
 ├── eslint.config.mjs       # ESLint configuration
