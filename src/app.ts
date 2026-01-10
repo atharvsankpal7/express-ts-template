@@ -18,13 +18,15 @@ app.get("/health", (req: Request, res: Response) => {
 
 app.use(routers)
 
+// non-exising routes
 app.use((_req, _res) => {
-  throw new ApiError(httpStatus.NOT_FOUND, "Api Not found")
+  throw new ApiError(httpStatus.NOT_FOUND, "Api Not found", false)
 })
 
+// global error handler
 app.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {
   if (err instanceof ApiError) {
-    logger.error(err.message, { statusCode: err.statusCode, stack: err.stack })
+    if (err.isOperational) logger.error(err.message, { statusCode: err.statusCode, stack: err.stack })
     return res
       .status(err.statusCode)
       .send(new ApiResponse({ statusCode: err.statusCode, data: null, error: err.message }))

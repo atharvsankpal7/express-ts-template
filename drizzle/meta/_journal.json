@@ -6,14 +6,21 @@
       "idx": 0,
       "version": "7",
       "when": 1767436243435,
-      "tag": "0000_organic_eternals",
+      "tag": "0000_create_user_table",
       "breakpoints": true
     },
     {
       "idx": 1,
       "version": "7",
       "when": 1767539140064,
-      "tag": "0001_gray_zarek",
+      "tag": "0001_add_email_idx_to_user_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1767558920077,
+      "tag": "0002_create_role_for_user",
       "breakpoints": true
     }
   ]
