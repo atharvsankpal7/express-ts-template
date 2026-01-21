@@ -9,4 +9,9 @@ export interface IApiResponse<T = unknown> {
 
 export type IRegisterResponse = IApiResponse<{ id: number }>
 
+export interface ILoginRequest {
+  email: string
+  password: string
+}
+
 // export type IUserResponse = IApiResponse<{ id: number; email: string; fullName: string }>

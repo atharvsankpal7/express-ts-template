@@ -4,10 +4,11 @@ import request from "supertest"
 
 import app from "../src/app"
 import { db } from "../src/drizzle/drizzle"
-import { IUser, users } from "../src/drizzle/schema"
+import { IUserLogin, users } from "../src/drizzle/schema"
 import { IRegisterResponse } from "../src/types/apiEndPointTypes/auth.types"
 import { truncateAllTables } from "./utils"
 import { TypedResponse } from "./utils/tests.types"
+
 describe("POST /auth/register", () => {
   beforeEach(async () => {
     await truncateAllTables()
@@ -42,7 +43,7 @@ describe("POST /auth/register", () => {
       const response = await registerUser()
       const id = response.body.data.id
 
-      const [dbUser] = (await db.select().from(users).where(eq(users.id, id))) as IUser[]
+      const [dbUser] = (await db.select().from(users).where(eq(users.id, id))) as IUserLogin[]
 
       return { response, dbUser }
     }
