@@ -18,6 +18,11 @@ if (!TEST_DB_URL) {
 const url = new URL(TEST_DB_URL)
 const testDbName = url.pathname.slice(1)
 
+if (!testDbName.includes("test")) {
+  logger.error("Test DB reset blocked in non test db, \nconfig" + JSON.stringify(Config))
+  process.exit(1)
+}
+
 // connect to postgres system database
 url.pathname = "/postgres"
 

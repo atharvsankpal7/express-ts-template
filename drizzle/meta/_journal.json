@@ -22,6 +22,34 @@
       "when": 1767558920077,
       "tag": "0002_create_role_for_user",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1769009441076,
+      "tag": "0003_happy_unus",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1769019531680,
+      "tag": "0004_new_skreet",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1769025708291,
+      "tag": "0005_add_timestamps_to_user_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1769025800883,
+      "tag": "0006_correct_timestamps_names_to_user_table",
+      "breakpoints": true
     }
   ]
 }
