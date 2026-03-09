@@ -28,6 +28,8 @@ router.post("/refresh", authController.refreshAccessToken)
 // router.post("/logout", authController.logoutUser)
 
 router.use(passport.authenticate("jwt", { session: false }))
+router.patch("/profile", authController.updateProfile)
+router.post("/change-password", authController.changePassword)
 router.post("/logout-all", authController.logoutAllDevices)
 
 router.get("/me", (req: Request, res: Response) => {

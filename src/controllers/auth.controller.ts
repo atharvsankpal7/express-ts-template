@@ -12,7 +12,8 @@ import * as tokenService from "../services/token.service"
 import { ILoginRequest } from "../types/apiEndPointTypes/auth.types"
 import ApiError from "../utils/apiError"
 import ApiResponse from "../utils/apiResponse"
-import { RegisterBodySchema } from "../validationSchemas/auth.zod"
+import { validateType } from "../utils/zodValidator"
+import { ChangePasswordSchema, RegisterBodySchema, UpdateProfileSchema } from "../validationSchemas/auth.zod"
 
 export const REFRESH_TOKEN_COOKIE_OPTIONS: CookieOptions = {
   httpOnly: true,
@@ -132,6 +133,80 @@ export const refreshAccessToken = async (req: Request, res: Response) => {
 }
 
 // export const logoutUser = async (req: Request, res: Response) => {}
+
+export const updateProfile = async (req: Request, res: Response) => {
+  const user = req.user as IUser
+
+  if (!user) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, "User not authenticated")
+  }
+
+  const { fullName, email } = validateType(UpdateProfileSchema, req.body)
+
+  const updateData: Partial<{ fullName: string; email: string }> = {}
+  if (fullName) updateData.fullName = fullName
+  if (email) updateData.email = email
+
+  try {
+    const updatedUser = await db.update(users).set(updateData).where(eq(users.id, user.id)).returning()
+
+    logger.info(`profile updated for user id: ${user.id}`)
+
+    return res.send(
+      new ApiResponse({
+        statusCode: httpStatus.OK,
+        data: { user: updatedUser[0] },
+        message: "Profile updated successfully",
+      }),
+    )
+  } catch (err: unknown) {
+    const error = err as { cause?: { code?: string } }
+    if (error.cause?.code === "23505") {
+      throw new ApiError(httpStatus.CONFLICT, "Email already in use")
+    }
+    throw err
+  }
+}
+
+export const changePassword = async (req: Request, res: Response) => {
+  const user = req.user as IUser
+
+  if (!user) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, "User not authenticated")
+  }
+
+  const { oldPassword, newPassword } = validateType(ChangePasswordSchema, req.body)
+
+  const [currentUser] = await db.select().from(users).where(eq(users.id, user.id)).limit(1)
+
+  if (!currentUser) {
+    throw new ApiError(httpStatus.NOT_FOUND, "User not found")
+  }
+
+  const isOldPasswordValid = await bcrypt.compare(oldPassword, currentUser.password)
+
+  if (!isOldPasswordValid) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "Current password is incorrect")
+  }
+
+  if (oldPassword === newPassword) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "New password must be different from current password")
+  }
+
+  const hashedPassword = await bcrypt.hash(oldPassword, 10)
+
+  await db.update(users).set({ password: hashedPassword }).where(eq(users.id, user.id))
+
+  logger.info(`password changed for user id: ${user.id}`)
+
+  return res.send(
+    new ApiResponse({
+      statusCode: httpStatus.OK,
+      data: null,
+      message: "Password changed successfully",
+    }),
+  )
+}
 
 export const logoutAllDevices = async (req: Request, res: Response) => {
   const user = req.user as IUser
